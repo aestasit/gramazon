@@ -1,0 +1,20 @@
+# GRADLE IGNORES
+
+build
+.gradle
+.settings
+
+# IDE IGNORE
+
+.idea
+gramazon.iml
+out
+
+# PROJECT IGNORE
+
+src/test/resources/test.properties
+gradle.properties
+
+# OS IGNORE
+
+.DS_Store

@@ -1,0 +1,21 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'idea'
+apply from: 'repos.gradle'
+
+group = 'com.aestasit.cloud.aws'
+version = '0.1-SNAPSHOT'
+
+dependencies {
+  compile gradleApi() 
+  compile 'com.amazonaws:aws-java-sdk:1.3.33'
+  groovy 'org.codehaus.groovy:groovy-all:1.8.6'
+  compile('com.jcraft:jsch:0.1.44-1') {
+    exclude module: 'slf4j-simple'
+  }
+  testCompile 'junit:junit:4.+'
+  testCompile 'org.apache.commons:commons-io:1.3.2'
+}  
+
+sourceCompatibility = '1.6'
+targetCompatibility = '1.6'

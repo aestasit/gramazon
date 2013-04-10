@@ -1,0 +1,97 @@
+package com.aestasit.cloud.aws.gradle.tasks
+
+import com.aestasit.cloud.aws.Instance
+import com.aestasit.cloud.aws.gradle.InstanceState
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.TaskAction
+
+import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.getInstanceState
+import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.setInstanceState
+
+/**
+ * Task that is capable of starting Amazon EC2 instance. 
+ *
+ * @author Aestas/IT
+ *
+ */
+class StartInstance extends AbstractEc2Task {
+
+  @Input
+  String keyName
+
+  @Input
+  String ami
+
+  @Input
+  String securityGroup
+
+  @Input
+  String instanceType
+
+  @Input
+  String stateFileName
+
+  @Input
+  boolean waitForStart = true
+
+  @Input
+  @Optional
+  int ebsSize = -1
+
+  @Input
+  @Optional
+  String statePath = project.buildDir.path
+
+  @Input
+  @Optional
+  String instanceName
+
+  @Input
+  @Optional
+  String reuseInstanceId
+
+
+  @TaskAction
+  def start() {
+
+    Instance ec2Instance
+    boolean doStart = true
+    if (reuseInstanceId) {
+      if (client.getInstanceState(reuseInstanceId) == 'running') {
+        ec2Instance = client.getInstance(reuseInstanceId)
+        doStart = false
+        project.logger.quiet("Reusing instance id: " + ec2Instance.instanceId + " - no instance will be started!")
+      }
+    }
+    
+    if (doStart) {
+      
+      // Start instance.
+      ec2Instance = client.startInstance(keyName,
+          ami,
+          securityGroup,
+          instanceType,
+          waitForStart,
+          ebsSize,
+          instanceName)
+
+      // Log success.
+      if (waitForStart) {
+        project.logger.quiet("Instance started. Instance id: " + ec2Instance.instanceId)
+      } else {
+        project.logger.quiet("Sent instance start request. Instance id: " + ec2Instance.instanceId)
+      }
+      
+    }
+
+    // Save state.
+    project.file(statePath).mkdirs()
+    setInstanceState(new File(statePath, stateFileName),
+                     new InstanceState(ec2Instance.name, 
+                                       ec2Instance.host, 
+                                       ec2Instance.instanceId))
+
+  }
+
+}
