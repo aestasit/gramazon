@@ -42,7 +42,7 @@ Please follow these steps if you want to send a patch or a GitHub pull request:
 
 - Create a topic branch: `git checkout -b my_fix`
 
-- Make sure you add tests for your changes and that they all pass with ‘rake test’
+- Make sure you add tests for your changes and that they all pass with ‘gradle test’
 
 - Commit your changes, one change/fix per commit
 
