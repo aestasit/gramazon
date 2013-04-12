@@ -22,15 +22,29 @@ class GramazonTest {
 
   @BeforeClass
   public static void setUp() {
+    AWS_ACCESS_KEY_ID = readProperty('awsAccessKeyId')
+    AWS_SECRET_KEY = readProperty('awsSecretKey')
+    DEFAULT_AMI = readProperty('awsDefaultAmi')
+    DEFAULT_KEYPAIR = readProperty('awsDefaultKeypair')
+    DEFAULT_SECURITY = readProperty('awsDefaultSecurity')
+    DEFAULT_INSTANCETYPE = readProperty('awsDefaultInstanceType', 't1.micro')
+    DEFAULT_EBSSIZE = readProperty('awsDefaultEbsSize', '-1').toInteger()
+    DEFAULT_REGION = readProperty('awsDefaultRegion', 'eu-west-1')
+  }
 
-    AWS_ACCESS_KEY_ID = System.getProperty('awsAccessKeyId')
-    AWS_SECRET_KEY = System.getProperty('awsSecretKey')
+  private static String readProperty(String key) {
+    String value = System.getProperty(key)
+    if (!value) {
+      throw new RuntimeException("Missing property: '$key'. Please, pass it through system properties!")
+    }
+    return value
+  }
 
-    DEFAULT_AMI = System.getProperty('awsDefaultAmi')
-    DEFAULT_KEYPAIR = System.getProperty('awsDefaultKeypair')
-    DEFAULT_SECURITY = System.getProperty('awsDefaultSecurity')
-    DEFAULT_INSTANCETYPE = System.getProperty('awsDefaultInstanceType')
-    DEFAULT_EBSSIZE = System.getProperty('awsDefaultEbsSize').toInteger()
-    DEFAULT_REGION = System.getProperty('awsDefaultRegion')
+  private static String readProperty(String key, String defaultValue) {
+    String value = System.getProperty(key)
+    if (!value) {
+      value = defaultValue
+    }
+    return value
   }
 }
