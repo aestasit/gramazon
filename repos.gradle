@@ -1,16 +1,14 @@
 apply plugin: 'maven'
 
 repositories {
-  maven {
-    url publicRepoUrl
-  }
+  mavenCentral()
 }
 
 uploadArchives {
   repositories.mavenDeployer {
-    name = "nexus-snapshots" 
-    repository(url: snapshotRepoUrl) {
-      authentication(userName: snapshotRepoUser, password: snapshotRepoPassword)
+    name = "snapshots" 
+    repository(url: ossSnapshotRepositoryUrl) {
+      authentication(userName: ossSnapshotRepositoryUserName, password: ossSnapshotRepositoryPassword)
     }
   }
 }

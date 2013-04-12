@@ -1,9 +1,7 @@
 package com.aestasit.cloud.aws
 
-import com.aestasit.cloud.aws.gradle.tasks.CreateImage
-import com.aestasit.cloud.aws.gradle.tasks.StartInstance
-import com.aestasit.cloud.aws.gradle.tasks.TerminateInstance
 import groovy.time.TimeCategory
+
 import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
 import org.gradle.testfixtures.ProjectBuilder
@@ -11,6 +9,16 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
+import com.aestasit.cloud.aws.gradle.tasks.CreateImage
+import com.aestasit.cloud.aws.gradle.tasks.StartInstance
+import com.aestasit.cloud.aws.gradle.tasks.TerminateInstance
+
+/**
+ * Integration test for Gradle API (StartInstance, TerminateInstance, CreateImage etc.) of Gramazon.
+ *
+ * @author Aestas/IT
+ *
+ */
 class TestGramazonPlugin extends GramazonTest {
 
   Project project
@@ -24,9 +32,9 @@ class TestGramazonPlugin extends GramazonTest {
       apply plugin: 'gramazon'
 
       aws {
-        acceesKeyId = props['aws.accessKeyId']
-        secretKey = props['aws.secretKey']
-        region = props['aws.defaultRegion']
+        acceesKeyId = AWS_ACCESS_KEY_ID
+        secretKey = AWS_SECRET_KEY
+        region = DEFAULT_REGION
       }
 
       task('start', type: StartInstance) {
@@ -71,7 +79,6 @@ class TestGramazonPlugin extends GramazonTest {
         amiDescription 'test ami'
         stopBeforeCreation true
       }
-
     }
   }
 
@@ -85,15 +92,15 @@ class TestGramazonPlugin extends GramazonTest {
   @Test
   @Ignore
   def void reuseMediaLibrary() throws Exception {
+    // TODO: Start instance to reuse before the test, get its instance id and then verify that it is actually reused
     project.tasks.'reuseMediaLib'.execute()
     project.tasks.'terminateReuse'.execute()
   }
 
   @Test
   @Ignore
-  // This test is ignored because currently there is no way to remove an AMI
   def void createImage() throws Exception {
+    // TODO: This test is ignored because currently there is no way to remove an AMI
     project.tasks.'createImage'.execute()
   }
-
 }

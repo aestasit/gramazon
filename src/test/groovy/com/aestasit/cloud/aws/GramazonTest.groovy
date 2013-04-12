@@ -1,34 +1,36 @@
 package com.aestasit.cloud.aws
 
 import org.junit.BeforeClass
-import org.apache.commons.io.FileUtils
 
+/**
+ * Base Gramazon integration test class.
+ *
+ * @author Aestas/IT
+ *
+ */
 class GramazonTest {
 
-  protected static Properties props = new Properties()
-  protected static DEFAULT_AMI = ''
-  protected static DEFAULT_KEYPAIR = ''
-  protected static DEFAULT_SECURITY = ''
-  protected static DEFAULT_INSTANCETYPE = ''
-  protected static DEFAULT_EBSSIZE =  -1
+  protected static String AWS_ACCESS_KEY_ID = ''
+  protected static String AWS_SECRET_KEY = ''
+
+  protected static String DEFAULT_AMI = ''
+  protected static String DEFAULT_KEYPAIR = ''
+  protected static String DEFAULT_SECURITY = ''
+  protected static String DEFAULT_INSTANCETYPE = ''
+  protected static String DEFAULT_EBSSIZE = -1
+  protected static String DEFAULT_REGION = ''
 
   @BeforeClass
   public static void setUp() {
-    def f = FileUtils.toFile(this.getClass().getResource("/test.properties"))
-    f.withInputStream {
-     stream -> props.load(stream)
-    }
 
-    DEFAULT_AMI = props['aws.defaultAmi']
-    DEFAULT_KEYPAIR = props['aws.defaultKeypair']
-    DEFAULT_SECURITY = props['aws.defaultSecurity']
-    DEFAULT_INSTANCETYPE = props['aws.defaultInstanceType']
-    DEFAULT_EBSSIZE = props['aws.defaultEBSSize'].toInteger()
+    AWS_ACCESS_KEY_ID = System.getProperty('awsAccessKeyId')
+    AWS_SECRET_KEY = System.getProperty('awsSecretKey')
 
+    DEFAULT_AMI = System.getProperty('awsDefaultAmi')
+    DEFAULT_KEYPAIR = System.getProperty('awsDefaultKeypair')
+    DEFAULT_SECURITY = System.getProperty('awsDefaultSecurity')
+    DEFAULT_INSTANCETYPE = System.getProperty('awsDefaultInstanceType')
+    DEFAULT_EBSSIZE = System.getProperty('awsDefaultEbsSize').toInteger()
+    DEFAULT_REGION = System.getProperty('awsDefaultRegion')
   }
-
-
-
-
-
 }

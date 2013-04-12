@@ -1,7 +1,10 @@
+
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'idea'
+
 apply from: 'repos.gradle'
+apply from: 'sonar.gradle'
 
 group = 'com.aestasit.cloud.aws'
 version = '0.1-SNAPSHOT'
@@ -19,3 +22,13 @@ dependencies {
 
 sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
+
+test.doFirst {
+  systemProperties = System.getProperties()
+  project.properties.each { key, value ->
+    if (key.startsWith("aws")) {
+      systemProperties[key] = value
+    }
+  }
+}
+
