@@ -39,8 +39,8 @@ class TestGramazonPlugin extends GramazonTest {
 
       task('start', type: StartInstance) {
         keyName DEFAULT_KEYPAIR
-        ami DEFAULT_AMI
-        securityGroup DEFAULT_SECURITY
+        ami DEFAULT_AMI_ID
+        securityGroup DEFAULT_SECURITY_GROUP
         instanceType DEFAULT_INSTANCETYPE
         instanceName 'gramazon gradle'
         stateFileName 'mediabox.json'
@@ -49,8 +49,8 @@ class TestGramazonPlugin extends GramazonTest {
 
       task('reuseMediaLib', type: StartInstance) {
         keyName DEFAULT_KEYPAIR
-        ami DEFAULT_AMI
-        securityGroup DEFAULT_SECURITY
+        ami DEFAULT_AMI_ID
+        securityGroup DEFAULT_SECURITY_GROUP
         instanceType DEFAULT_INSTANCETYPE
         instanceName 'gramazon gradle'
         stateFileName 'mediabox.json'

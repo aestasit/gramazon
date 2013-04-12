@@ -27,8 +27,8 @@ class TestEC2Client extends GramazonTest {
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
           DEFAULT_KEYPAIR,
-          DEFAULT_AMI,
-          DEFAULT_SECURITY,
+          DEFAULT_AMI_ID,
+          DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
           true)
       assertEquals("running", ec2.getInstanceState(instance.instanceId))
@@ -40,8 +40,8 @@ class TestEC2Client extends GramazonTest {
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
           DEFAULT_KEYPAIR,
-          DEFAULT_AMI,
-          DEFAULT_SECURITY,
+          DEFAULT_AMI_ID,
+          DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
           true,
           DEFAULT_EBSSIZE,
@@ -57,8 +57,8 @@ class TestEC2Client extends GramazonTest {
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
           DEFAULT_KEYPAIR,
-          DEFAULT_AMI,
-          DEFAULT_SECURITY,
+          DEFAULT_AMI_ID,
+          DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
           true,
           15,
@@ -75,8 +75,8 @@ class TestEC2Client extends GramazonTest {
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
           DEFAULT_KEYPAIR,
-          DEFAULT_AMI,
-          DEFAULT_SECURITY,
+          DEFAULT_AMI_ID,
+          DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
           true,
           DEFAULT_EBSSIZE,

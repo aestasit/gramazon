@@ -13,9 +13,9 @@ class GramazonTest {
   protected static String AWS_ACCESS_KEY_ID = ''
   protected static String AWS_SECRET_KEY = ''
 
-  protected static String DEFAULT_AMI = ''
-  protected static String DEFAULT_KEYPAIR = ''
-  protected static String DEFAULT_SECURITY = ''
+  protected static String DEFAULT_AMI_ID = ''
+  protected static String DEFAULT_KEY_NAME = ''
+  protected static String DEFAULT_SECURITY_GROUP = ''
   protected static String DEFAULT_INSTANCETYPE = ''
   protected static String DEFAULT_EBSSIZE = -1
   protected static String DEFAULT_REGION = ''
@@ -24,9 +24,9 @@ class GramazonTest {
   public static void setUp() {
     AWS_ACCESS_KEY_ID = readProperty('awsAccessKeyId')
     AWS_SECRET_KEY = readProperty('awsSecretKey')
-    DEFAULT_AMI = readProperty('awsDefaultAmi')
-    DEFAULT_KEYPAIR = readProperty('awsDefaultKeypair')
-    DEFAULT_SECURITY = readProperty('awsDefaultSecurity')
+    DEFAULT_AMI_ID = readProperty('awsDefaultAmiId')
+    DEFAULT_KEY_NAME = readProperty('awsDefaultKeyName')
+    DEFAULT_SECURITY_GROUP = readProperty('awsDefaultSecurityGroup')
     DEFAULT_INSTANCETYPE = readProperty('awsDefaultInstanceType', 't1.micro')
     DEFAULT_EBSSIZE = readProperty('awsDefaultEbsSize', '-1').toInteger()
     DEFAULT_REGION = readProperty('awsDefaultRegion', 'eu-west-1')
