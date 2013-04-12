@@ -38,7 +38,7 @@ class TestGramazonPlugin extends GramazonTest {
       }
 
       task('start', type: StartInstance) {
-        keyName DEFAULT_KEYPAIR
+        keyName DEFAULT_KEY_NAME
         ami DEFAULT_AMI_ID
         securityGroup DEFAULT_SECURITY_GROUP
         instanceType DEFAULT_INSTANCETYPE
@@ -48,7 +48,7 @@ class TestGramazonPlugin extends GramazonTest {
       }
 
       task('reuseMediaLib', type: StartInstance) {
-        keyName DEFAULT_KEYPAIR
+        keyName DEFAULT_KEY_NAME
         ami DEFAULT_AMI_ID
         securityGroup DEFAULT_SECURITY_GROUP
         instanceType DEFAULT_INSTANCETYPE

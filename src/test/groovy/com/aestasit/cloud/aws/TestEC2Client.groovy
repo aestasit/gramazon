@@ -26,7 +26,7 @@ class TestEC2Client extends GramazonTest {
   public void startInstanceWithNoName() throws Exception {
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
-          DEFAULT_KEYPAIR,
+          DEFAULT_KEY_NAME,
           DEFAULT_AMI_ID,
           DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
@@ -39,7 +39,7 @@ class TestEC2Client extends GramazonTest {
   public void startInstanceWithName() throws Exception {
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
-          DEFAULT_KEYPAIR,
+          DEFAULT_KEY_NAME,
           DEFAULT_AMI_ID,
           DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
@@ -56,7 +56,7 @@ class TestEC2Client extends GramazonTest {
   public void startInstanceWithEsbSize() throws Exception {
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
-          DEFAULT_KEYPAIR,
+          DEFAULT_KEY_NAME,
           DEFAULT_AMI_ID,
           DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
@@ -74,7 +74,7 @@ class TestEC2Client extends GramazonTest {
     // TODO: No way to test if an instance has tags (yet)
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
-          DEFAULT_KEYPAIR,
+          DEFAULT_KEY_NAME,
           DEFAULT_AMI_ID,
           DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
