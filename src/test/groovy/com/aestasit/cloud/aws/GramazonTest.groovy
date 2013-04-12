@@ -13,12 +13,12 @@ class GramazonTest {
   protected static String AWS_ACCESS_KEY_ID = ''
   protected static String AWS_SECRET_KEY = ''
 
+  protected static String DEFAULT_REGION = ''
   protected static String DEFAULT_AMI_ID = ''
   protected static String DEFAULT_KEY_NAME = ''
   protected static String DEFAULT_SECURITY_GROUP = ''
   protected static String DEFAULT_INSTANCETYPE = ''
-  protected static String DEFAULT_EBSSIZE = -1
-  protected static String DEFAULT_REGION = ''
+  protected static int DEFAULT_EBSSIZE = -1
 
   @BeforeClass
   public static void setUp() {
