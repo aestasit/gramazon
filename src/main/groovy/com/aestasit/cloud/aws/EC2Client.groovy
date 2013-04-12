@@ -48,77 +48,79 @@ public class EC2Client {
    * @return instance data structure.
    */
   public Instance startInstance(String keyName,
-                                String ami,
-                                String securityGroup,
-                                String instanceType,
-                                boolean waitForStart,
-                                int esbVolumeSize = -1,
-                                String instanceName = null,
-                                Map<String, String> additionalTags = [:]) {
+      String ami,
+      String securityGroup,
+      String instanceType,
+      boolean waitForStart,
+      int esbVolumeSize = -1,
+      String instanceName = null,
+      Map<String, String> additionalTags = [:]) {
 
-     def req = new RunInstancesRequest()
-     req.keyName = keyName
-     req.imageId = ami
-     req.securityGroups = [ securityGroup ]
-     req.instanceType = InstanceType.fromValue(instanceType)
-     req.minCount = 1
-     req.maxCount = 1
-     if (esbVolumeSize != -1) {
-       req.setBlockDeviceMappings([ getEsbInfo(esbVolumeSize, false) ])
-     }
+    def req = new RunInstancesRequest()
+    req.keyName = keyName
+    req.imageId = ami
+    req.securityGroups = [securityGroup]
+    req.instanceType = InstanceType.fromValue(instanceType)
+    req.minCount = 1
+    req.maxCount = 1
+    if (esbVolumeSize != -1) {
+      req.setBlockDeviceMappings([
+        getEsbInfo(esbVolumeSize, false)
+      ])
+    }
 
-     def result = ec2.runInstances(req)
-     def instanceId = result.reservation.instances[0].instanceId
+    def result = ec2.runInstances(req)
+    def instanceId = result.reservation.instances[0].instanceId
 
-     // Sleep for a while, to give time to the instance to properly initialize.
-     sleep(EC2_API_REQUEST_DELAY)
+    // Sleep for a while, to give time to the instance to properly initialize.
+    sleep(EC2_API_REQUEST_DELAY)
 
-     // Set instance name.
-     addTagsToInstance(result.reservation.instances[0].instanceId, {
-       if (instanceName) {
-         additionalTags << ["Name": instanceName]
-       }
-       return additionalTags ?: null
-     })
+    // Set instance name.
+    addTagsToInstance(result.reservation.instances[0].instanceId, {
+      if (instanceName) {
+        additionalTags << ["Name": instanceName]
+      }
+      return additionalTags ?: null
+    })
 
-     // Sleep for a while, to give time to the instance to properly initialize.
-     sleep(EC2_API_REQUEST_DELAY)
+    // Sleep for a while, to give time to the instance to properly initialize.
+    sleep(EC2_API_REQUEST_DELAY)
 
-     // Wait for instace to have 'running' state.
-     repeat("creating instance...", EC2_API_REQUEST_DELAY, DEFAULT_RETRY_COUNT) {
-        try {
-          return getInstanceState(instanceId) == RUNNING_STATE
-        } catch (Exception e) {
-          println "recieved: " + e.message
-          return false
-        }
-     }
+    // Wait for instace to have 'running' state.
+    repeat("creating instance...", EC2_API_REQUEST_DELAY, DEFAULT_RETRY_COUNT) {
+      try {
+        return getInstanceState(instanceId) == RUNNING_STATE
+      } catch (Exception e) {
+        println "recieved: " + e.message
+        return false
+      }
+    }
 
-     // Sleep for a while, to give time to the instance to properly initialize.
-     sleep(EC2_API_REQUEST_DELAY)
+    // Sleep for a while, to give time to the instance to properly initialize.
+    sleep(EC2_API_REQUEST_DELAY)
 
-     // Get fresh instance information.
-     Instance instance = getInstance(instanceId)
+    // Get fresh instance information.
+    Instance instance = getInstance(instanceId)
 
-     if (!instance) {
-       throw new RuntimeException("Failed to parse instance information for instance id: $instanceId!")
-     }
+    if (!instance) {
+      throw new RuntimeException("Failed to parse instance information for instance id: $instanceId!")
+    }
 
-     if (waitForStart) {
+    if (waitForStart) {
 
-       if (!instance?.host) {
-         throw new RuntimeException("Instance host cannot be retrieved!")
-       }
+      if (!instance?.host) {
+        throw new RuntimeException("Instance host cannot be retrieved!")
+      }
 
-       // Now try to connect to the instance on the specified port.
-       repeat("initiating ssh connection...", SSH_CONNECTION_RETRY_DELAY, DEFAULT_RETRY_COUNT) {
-         available(instance.host, 22)
-       }
-       sleep(EC2_API_REQUEST_DELAY)
+      // Now try to connect to the instance on the specified port.
+      repeat("initiating ssh connection...", SSH_CONNECTION_RETRY_DELAY, DEFAULT_RETRY_COUNT) {
+        available(instance.host, 22)
+      }
+      sleep(EC2_API_REQUEST_DELAY)
 
-     }
+    }
 
-     return instance
+    return instance
 
   }
 
@@ -153,8 +155,8 @@ public class EC2Client {
    */
   public List<Instance> listInstances(String instanceName, Map<String, String> tagFilter = [:]) {
     return listInstancesWithRequest(new DescribeInstancesRequest()
-             .withFilters(tagFilter.collect { k, v -> new Filter("tag:" + k, [v]) } << new Filter("tag:Name", [instanceName]))
-           )
+    .withFilters(tagFilter.collect { k, v -> new Filter("tag:" + k, [v]) } << new Filter("tag:Name", [instanceName]))
+    )
   }
 
   /**
@@ -199,23 +201,21 @@ public class EC2Client {
    * @return the id of the AMI that was created.
    */
   public String createImage(String instanceId,
-                            String name,
-                            String description,
-                            boolean stopBeforeCreation = false,
-                            Integer stopTimeout = 60,
-                            Integer retryDelay = 5) {
+      String name,
+      String description,
+      boolean stopBeforeCreation = false,
+      Integer stopTimeout = 60,
+      Integer retryDelay = 5) {
 
     if (stopBeforeCreation) {
       stopInstance(instanceId)
-      withTimeout(stopTimeout, retryDelay) {
-        getInstanceState(instanceId) == "stopped"
-      }
+      withTimeout(stopTimeout, retryDelay) { getInstanceState(instanceId) == "stopped" }
     }
 
     def imageRequest = new CreateImageRequest()
-                .withInstanceId(instanceId)
-                .withName(name)
-                .withDescription(description)
+        .withInstanceId(instanceId)
+        .withName(name)
+        .withDescription(description)
 
     return ec2.createImage(imageRequest).imageId
 
@@ -238,9 +238,9 @@ public class EC2Client {
     def tagMap = tags.call()
     if (tagMap) {
       ec2.createTags(new CreateTagsRequest()
-                     .withResources([instance])
-                     .withTags(tagMap.collect { k, v -> new Tag(k, v) })
-      )
+          .withResources([instance])
+          .withTags(tagMap.collect { k, v -> new Tag(k, v) })
+          )
     }
   }
 
@@ -248,6 +248,8 @@ public class EC2Client {
 
     BlockDeviceMapping bdc = new BlockDeviceMapping()
     bdc.setDeviceName("/dev/sda1")
+
+    // TODO: Implement ephemeral storage usage
 
     EbsBlockDevice ebs = new EbsBlockDevice()
     ebs.setVolumeType(ioOptimized ? VolumeType.Io1 : VolumeType.Standard)
