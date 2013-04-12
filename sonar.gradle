@@ -10,6 +10,7 @@ sonarRunner {
     property "sonar.jdbc.username", sonarJdbcUser
     property "sonar.jdbc.password", sonarJdbcPassword
     property "sonar.jdbc.driverClassName", sonarJdbcDriver
+    property "sonar.language", "groovy"
     property "sonar.artifact.path", "build/libs/${jar.archiveName}"
   }
 }
