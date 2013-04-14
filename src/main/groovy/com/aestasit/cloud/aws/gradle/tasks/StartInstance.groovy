@@ -6,7 +6,6 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.getInstanceState
 import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.setInstanceState
 
 /**

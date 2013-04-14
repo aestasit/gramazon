@@ -5,62 +5,58 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-import com.aestasit.cloud.aws.EC2Client
-
 import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.getInstanceState
-import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.setInstanceState
 
 /**
  * Task that is capable of creatim Amazon AMI from EC2 instance.
- * 
+ *
  * @author Aestas/IT
  *
  */
 class CreateImage extends AbstractEc2Task {
 
-  @Input
-  String amiName
+    @Input
+    String amiName
 
-  @Input
-  String amiDescription
+    @Input
+    String amiDescription
 
-  @Input
-  @Optional
-  String instanceId
+    @Input
+    @Optional
+    String instanceId
 
-  @Input
-  @Optional
-  String stateFileName
+    @Input
+    @Optional
+    String stateFileName
 
-  @Input
-  @Optional
-  String statePath = project.buildDir.path
-  
-  @Input
-  @Optional
-  boolean stopBeforeCreation = false
-  
-  @TaskAction
-  def createImage() {
-    sanitize()
-    if (stateFileName) {
-      def state = getInstanceState(new File(statePath, stateFileName))
-      instanceId = state.instanceId
+    @Input
+    @Optional
+    String statePath = project.buildDir.path
+
+    @Input
+    @Optional
+    boolean stopBeforeCreation = false
+
+    @TaskAction
+    def createImage() {
+        sanitize()
+        if (stateFileName) {
+            def state = getInstanceState(new File(statePath, stateFileName))
+            instanceId = state.instanceId
+        }
+        def amiId = client.createImage(instanceId, amiName, amiDescription, stopBeforeCreation)
+        project.logger.quiet("Sent image creation request. AMI ID: ${amiId}, instance id: ${instanceId}")
     }
-    def amiId = client.createImage(instanceId, amiName, amiDescription, stopBeforeCreation)    
-    project.logger.quiet("Sent image creation request. AMI ID: ${amiId}, instance id: ${instanceId}")
-  }
-    
-  private void sanitize() {
-    if (!statePath) {
-      statePath = '.'
+
+    private void sanitize() {
+
+        statePath = statePath ?: '.'
+        if (stateFileName && instanceId) {
+            throw new GradleException("You can't specify stateFileName together with instanceId at the same time!")
+        }
+        if (!stateFileName && !instanceId) {
+            throw new GradleException("You must specify either stateFileName or instanceId properties!")
+        }
     }
-    if (stateFileName && instanceId) {
-      throw new GradleException("You can't specify stateFileName together with instanceId at the same time!")
-    }
-    if (!stateFileName && !instanceId) {
-      throw new GradleException("You must specify either stateFileName or instanceId properties!")
-    }
-  }
 
 }

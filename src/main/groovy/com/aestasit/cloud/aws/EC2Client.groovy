@@ -21,7 +21,7 @@ import com.jcraft.jsch.Session
  * @author Aestas IT
  *
  */
-public class EC2Client {
+class EC2Client {
 
   private final static String STOPPED_STATE = "stopped"
   private final static String RUNNING_STATE = "running"
@@ -32,7 +32,7 @@ public class EC2Client {
 
   private AmazonEC2 ec2
 
-  public EC2Client(region) {
+  EC2Client(region) {
     ec2 = new AmazonEC2Client(new SystemPropertiesCredentialsProvider())
     ec2.endpoint = "ec2." + region + ".amazonaws.com"
   }
@@ -47,7 +47,7 @@ public class EC2Client {
    * @param waitForStart if true then method is wating for the instance to become available.
    * @return instance data structure.
    */
-  public Instance startInstance(String keyName,
+  Instance startInstance(String keyName,
       String ami,
       String securityGroup,
       String instanceType,
@@ -80,7 +80,7 @@ public class EC2Client {
       if (instanceName) {
         additionalTags << ["Name": instanceName]
       }
-      return additionalTags ?: null
+      additionalTags ?: null
     })
 
     // Sleep for a while, to give time to the instance to properly initialize.
@@ -120,7 +120,7 @@ public class EC2Client {
 
     }
 
-    return instance
+    instance
 
   }
 
@@ -130,9 +130,9 @@ public class EC2Client {
    * @param instanceId the instance id to search for.
    * @return state string.
    */
-  public String getInstanceState(String instanceId) {
+  String getInstanceState(String instanceId) {
     def response = ec2.describeInstances(new DescribeInstancesRequest().withInstanceIds([instanceId]))
-    return response.getReservations()[0].getInstances()[0].state.name
+    response.getReservations()[0].getInstances()[0].state.name
   }
 
   /**
@@ -141,9 +141,9 @@ public class EC2Client {
    * @param instanceId the instance id to search for.
    * @return instance data structure.
    */
-  public Instance getInstance(String instanceId) {
+  Instance getInstance(String instanceId) {
     List<Instance> instances = listInstancesWithRequest(new DescribeInstancesRequest().withInstanceIds(instanceId))
-    return instances.size() == 1 ? instances[0] : null
+    instances.size() == 1 ? instances[0] : null
   }
 
   /**
@@ -153,8 +153,8 @@ public class EC2Client {
    * @param tagFilter the map of tag values.
    * @return collection of instance data.
    */
-  public List<Instance> listInstances(String instanceName, Map<String, String> tagFilter = [:]) {
-    return listInstancesWithRequest(new DescribeInstancesRequest()
+  List<Instance> listInstances(String instanceName, Map<String, String> tagFilter = [:]) {
+    listInstancesWithRequest(new DescribeInstancesRequest()
     .withFilters(tagFilter.collect { k, v -> new Filter("tag:" + k, [v]) } << new Filter("tag:Name", [instanceName]))
     )
   }
@@ -164,8 +164,8 @@ public class EC2Client {
    *
    * @return collection of instance data.
    */
-  public List<Instance> listAllInstances() {
-    return listInstancesWithRequest(new DescribeInstancesRequest())
+  List<Instance> listAllInstances() {
+    listInstancesWithRequest(new DescribeInstancesRequest())
   }
 
   /**
@@ -173,7 +173,7 @@ public class EC2Client {
    *
    * @param instanceId the instance id to stop.
    */
-  public void stopInstance(String instanceId) {
+  void stopInstance(String instanceId) {
     ec2.stopInstances(new StopInstancesRequest().withInstanceIds([instanceId]))
   }
 
@@ -183,9 +183,9 @@ public class EC2Client {
    * @param instanceIds the list of instance id to terminate.
    * @return number of terminated instances.
    */
-  public int terminateInstances(List<String> instanceIds) {
+  int terminateInstances(List<String> instanceIds) {
     def response = ec2.terminateInstances(new TerminateInstancesRequest(instanceIds))
-    return response.terminatingInstances.size()
+    response.terminatingInstances.size()
   }
 
   /**
@@ -200,7 +200,7 @@ public class EC2Client {
    *                    fails if the waiting time exceeds the timeout.
    * @return the id of the AMI that was created.
    */
-  public String createImage(String instanceId,
+  String createImage(String instanceId,
       String name,
       String description,
       boolean stopBeforeCreation = false,
@@ -217,7 +217,7 @@ public class EC2Client {
         .withName(name)
         .withDescription(description)
 
-    return ec2.createImage(imageRequest).imageId
+    ec2.createImage(imageRequest).imageId
 
   }
 
@@ -231,7 +231,7 @@ public class EC2Client {
     result.getReservations().each {
       instances << MapHelper.map(ec2, it.getInstances()[0])
     }
-    return instances
+    instances
   }
 
   private void addTagsToInstance(String instance, Closure tags) {
@@ -256,7 +256,7 @@ public class EC2Client {
     ebs.setVolumeSize(size)
     bdc.setEbs(ebs)
 
-    return bdc
+    bdc
 
   }
 
@@ -330,7 +330,7 @@ public class EC2Client {
     } catch (Exception e1) {
       e1.printStackTrace()
     }
-    return false
+    false
   }
 
 }
