@@ -1,9 +1,8 @@
 package com.aestasit.cloud.aws.gradle.tasks
 
+import com.aestasit.cloud.aws.EC2Client
 import org.gradle.api.GradleException
 import org.gradle.api.internal.ConventionTask
-
-import com.aestasit.cloud.aws.EC2Client
 
 /**
  * Base class for various Gradle task types that work with Amazon EC2.

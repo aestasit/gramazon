@@ -1,9 +1,9 @@
 package com.aestasit.cloud.aws.gradle
 
-import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.*
-
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+
+import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.getInstanceState
 
 /**
  * Plugin that adds common setup shared by Gramazon task types (StartInstance, TerminateInstance etc.). 

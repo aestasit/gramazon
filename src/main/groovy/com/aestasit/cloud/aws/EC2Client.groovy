@@ -1,7 +1,6 @@
 package com.aestasit.cloud.aws
 
-import groovy.time.TimeCategory
-
+import com.aestasit.cloud.aws.Instance
 import com.aestasit.cloud.aws.util.MapHelper
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
 import com.amazonaws.services.ec2.AmazonEC2
@@ -9,6 +8,7 @@ import com.amazonaws.services.ec2.AmazonEC2Client
 import com.amazonaws.services.ec2.model.*
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
+import groovy.time.TimeCategory
 
 /**
  *
@@ -23,14 +23,13 @@ import com.jcraft.jsch.Session
  */
 class EC2Client {
 
-  private final static String STOPPED_STATE = "stopped"
   private final static String RUNNING_STATE = "running"
 
   static final int EC2_API_REQUEST_DELAY = 5000
   static final int SSH_CONNECTION_RETRY_DELAY = 5000
   static final int DEFAULT_RETRY_COUNT = 30
 
-  private AmazonEC2 ec2
+  private final AmazonEC2 ec2
 
   EC2Client(region) {
     ec2 = new AmazonEC2Client(new SystemPropertiesCredentialsProvider())

@@ -1,14 +1,12 @@
 package com.aestasit.cloud.aws.gradle.tasks
 
-import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.*
-
+import com.aestasit.cloud.aws.Instance
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-import com.aestasit.cloud.aws.EC2Client
-import com.aestasit.cloud.aws.Instance
+import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.getInstanceState
 
 /**
  * Task that is capable of terminating Amazon EC2 instance.
@@ -63,9 +61,7 @@ class TerminateInstance extends AbstractEc2Task {
   }
   
   private void sanitize() {
-    if (!statePath) {
-      statePath = '.'
-    }
+    statePath = statePath ?: '.'
     if (stateFileName && (instanceName || filter)) {
       throw new GradleException("You can't specify stateFileName together with instanceName or filter at the same time!")
     }

@@ -1,11 +1,10 @@
 package com.aestasit.cloud.aws
 
-import groovy.transform.Canonical
 import com.amazonaws.services.ec2.AmazonEC2
-import com.amazonaws.services.ec2.AmazonEC2Client
-import com.amazonaws.services.ec2.model.*
+import com.amazonaws.services.ec2.model.TerminateInstancesRequest
+import groovy.transform.Canonical
 
-@Canonical 
+@Canonical
 class Instance {
 
   AmazonEC2 ec2
