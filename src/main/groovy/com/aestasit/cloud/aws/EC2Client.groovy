@@ -44,7 +44,7 @@ class EC2Client {
    * @param securityGroup the security group.
    * @param instanceType the instance type.
    * @param waitForStart if true then method is wating for the instance to become available.
-   * @return instance data structure.
+   * @return an Instance object containing the data of the started instance.
    */
   Instance startInstance(String keyName,
       String ami,
@@ -124,7 +124,7 @@ class EC2Client {
   }
 
   /**
-   * Get instance state name.
+   * Get an instance state status.
    *
    * @param instanceId the instance id to search for.
    * @return state string.
@@ -146,10 +146,18 @@ class EC2Client {
   }
 
   /**
-   * List all instances with given name pattern and tags.
+   * List all instances with a given name pattern and tags.
    *
-   * @param instanceName the instance name pattern.
-   * @param tagFilter the map of tag values.
+   * An example:
+   * <pre>
+   * {@code
+   * ec2.listInstances("gramazon*").each {
+   * ...
+   *  }
+   *}
+   * </pre>
+   * @param instanceName the instance name pattern, supports wildcards
+   * @param tagFilter the map of additional tag values.
    * @return collection of instance data.
    */
   List<Instance> listInstances(String instanceName, Map<String, String> tagFilter = [:]) {
@@ -168,7 +176,7 @@ class EC2Client {
   }
 
   /**
-   * Stop EC2 instance.
+   * Stop an EC2 instance.
    *
    * @param instanceId the instance id to stop.
    */
@@ -177,7 +185,7 @@ class EC2Client {
   }
 
   /**
-   * Terminare EC2 instance.
+   * Terminate an EC2 instance.
    *
    * @param instanceIds the list of instance id to terminate.
    * @return number of terminated instances.
