@@ -38,7 +38,7 @@ Comments, patches, Git pull requests and bug reports are welcome. Send an email 
 
 Please follow these steps if you want to send a patch or a GitHub pull request:
 
-- Fork lfiandesio/gramazon
+- Fork aestasit/gramazon
 
 - Create a topic branch: `git checkout -b my_fix`
 
