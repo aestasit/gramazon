@@ -37,7 +37,6 @@ Please note that the build also executes some tests against Amazon EC2. In order
 
 ### Groovy API ###
 
-
 The easiest way to use **Gramazon** in a **Groovy** script is by importing the dependency using [Grape](http://groovy.codehaus.org/Grape).
 
 	@GrabResolver(name='oss', root='https://oss.sonatype.org/content/repositories/snapshots/')
@@ -57,7 +56,7 @@ In order for the class to connect to the Amazon EC2 cloud infrastructure, the _A
 	System.setProperty("aws.accessKeyId", '#################')
 	System.setProperty("aws.secretKey", '####################################')
 
-For a list of available methods, please refer to the **Groovydoc** documentation available here. 
+For a list of available methods, please refer to the **Groovydoc** documentation available in the **Groovydoc** [pages](http://aestasit.github.io/gramazon/groovydoc/index.html) . 
 
 
 ### Gradle Plugin ###
@@ -69,7 +68,6 @@ TODO
 This code is massively dependant on the Amazon SDK for Java. 
 
 ## Contact ##
-
 
 Comments, patches, Git pull requests and bug reports are welcome. Send an email to luciano@aestasit.com.
 
