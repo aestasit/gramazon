@@ -69,7 +69,7 @@ This code is massively dependant on the Amazon SDK for Java.
 
 ## Contact ##
 
-Comments, patches, Git pull requests and bug reports are welcome. Send an email to luciano@aestasit.com.
+Comments, patches, Git pull requests and bug reports are welcome. Send an email to opensource@aestasit.com.
 
 ## Patches & Pull Requests ##
 
