@@ -1,6 +1,7 @@
 package com.aestasit.cloud.aws
 
-import com.aestasit.cloud.aws.Instance
+import groovy.time.TimeCategory
+
 import com.aestasit.cloud.aws.util.MapHelper
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
 import com.amazonaws.services.ec2.AmazonEC2
@@ -8,7 +9,6 @@ import com.amazonaws.services.ec2.AmazonEC2Client
 import com.amazonaws.services.ec2.model.*
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
-import groovy.time.TimeCategory
 
 /**
  *
@@ -27,7 +27,7 @@ class EC2Client {
 
   static final int EC2_API_REQUEST_DELAY = 5000
   static final int SSH_CONNECTION_RETRY_DELAY = 5000
-  static final int DEFAULT_RETRY_COUNT = 30
+  static final int DEFAULT_RETRY_COUNT = 50
 
   private final AmazonEC2 ec2
 
@@ -162,8 +162,8 @@ class EC2Client {
    */
   List<Instance> listInstances(String instanceName, Map<String, String> tagFilter = [:]) {
     listInstancesWithRequest(new DescribeInstancesRequest()
-    .withFilters(tagFilter.collect { k, v -> new Filter("tag:" + k, [v]) } << new Filter("tag:Name", [instanceName]))
-    )
+        .withFilters(tagFilter.collect { k, v -> new Filter("tag:" + k, [v]) } << new Filter("tag:Name", [instanceName]))
+        )
   }
 
   /**
