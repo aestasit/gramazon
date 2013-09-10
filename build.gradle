@@ -13,7 +13,7 @@ apply from: 'repos.gradle'
 apply from: 'sonar.gradle'
 
 group = 'com.aestasit.cloud.aws'
-version = '0.1-SNAPSHOT'
+version = '0.2-SNAPSHOT'
 
 dependencies {
   compile gradleApi() 
