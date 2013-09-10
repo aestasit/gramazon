@@ -9,6 +9,7 @@ import com.amazonaws.services.ec2.model.*
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 import groovy.time.TimeCategory
+import static org.apache.commons.lang3.RandomStringUtils.*
 
 /**
  *
@@ -228,6 +229,28 @@ class EC2Client {
 
   }
 
+  String createKeyPair() {
+    def randomKey = java.net.InetAddress.localHost.hostName + 
+                    '_' + randomAlphanumeric(12)
+    createKeyPair(randomKey)
+    randomKey
+  }
+
+  String createKeyPair(String keypairName) {
+    def newKeyPair = new CreateKeyPairRequest(keypairName)
+    def response = ec2.createKeyPair(newKeyPair)
+
+    response.keyPair.keyName
+
+  }
+
+  void destroyKeyPair() {
+
+
+  }
+
+
+
   /*
    * PRIVATE METHODS
    */
@@ -267,7 +290,7 @@ class EC2Client {
 
   }
 
-  private void withTimeout(Integer x, Integer y, Closure block)  {
+  private void withTimeout(Integer timeout, Integer retry, Closure block)  {
 
     boolean timedOut = false
     boolean pass = false
@@ -282,9 +305,9 @@ class EC2Client {
         } catch (Throwable e) {
           thrown = e
         } finally {
-          timedOut = startDate > x.seconds.ago
+          timedOut = timeout.seconds.ago > startDate
         }
-        sleep(y.seconds.millis.longValue())
+        sleep(retry.seconds.millis.longValue())
       }
     }
 
