@@ -246,7 +246,7 @@ class EC2Client {
   }
 
   void destroyKeyPair() {
-
+    // TODO
 
   }
 

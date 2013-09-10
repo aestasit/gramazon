@@ -23,12 +23,12 @@ class KeyPairTest extends GramazonTest {
     ec2 = new EC2Client(DEFAULT_REGION)
   }
 
-  @Test
+  @Ignore
   void createKeypairWithName() {
     ec2.createKeyPair('test-groovy')
   }
 
-  @Test
+  @Ignore
   void createKeypairWithRandomName() {
     ec2.createKeyPair()
   }
