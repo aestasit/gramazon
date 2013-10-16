@@ -1,21 +1,12 @@
-# GRADLE IGNORES
+*.class
 
-build
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Build Files #
+bin
 .gradle
-.settings
-
-# IDE IGNORE
-
-.idea
-gramazon.iml
-out
-
-# PROJECT IGNORE
-
-src/test/resources/test.properties
-gradle.properties
-
-# OS IGNORE
-
 .DS_Store
-/bin
+build
