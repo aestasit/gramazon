@@ -1,13 +1,6 @@
 
-buildscript {
-  repositories { mavenCentral() }
-  dependencies { classpath 'org.ajoberstar:gradle-git:0.6.3' }
-}
-
-apply plugin: 'github-pages'
-
-githubPages {
-  repoUri = 'git@github.com:aestasit/${githubProjectName}.git'
+githubPages {                                        
+  repoUri = "https://github.com/aestasit/${githubProjectName}.git"
   pages {
     from(groovydoc.outputs.files) {
       into 'docs/groovydoc'

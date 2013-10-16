@@ -17,9 +17,9 @@ uploadArchives {
       description pomProjectDescription
       url "https://github.com/aestasit/${githubProjectName}"
       scm {
-        url "scm:git@github.com:aestasit/${githubProjectName}"
-        connection "scm:git@github.com:aestasit/${githubProjectName}"
-        developerConnection "scm:git@github.com:aestasit/${githubProjectName}"
+        url "scm:git@github.com:aestasit/${githubProjectName}.git"
+        connection "scm:git@github.com:aestasit/${githubProjectName}.git"
+        developerConnection "scm:git@github.com:aestasit/${githubProjectName}.git"
       }
       licenses {
         license {
