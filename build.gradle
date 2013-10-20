@@ -41,19 +41,7 @@ configurations {
   all*.exclude module: 'slf4j-simple'
 }
 
-test.doFirst {
-  systemProperties = System.getProperties()
-  project.properties.each { key, value ->
-    if (key.startsWith("aws")) {
-      systemProperties[key] = value
-    }
-  }
-}
-
 task wrapper(type: Wrapper) {
   gradleVersion = '1.8'
 }
-
-
-
 
