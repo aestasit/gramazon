@@ -23,12 +23,6 @@ apply from: 'tests.gradle'
 sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
 
-configure(allprojects) {
-  ext.groovyVersion  = '2.1.8'
-  ext.slf4jVersion   = '1.7.5'
-  ext.logbackVersion = '1.0.13'
-}
-
 dependencies {
   compile gradleApi() 
   compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
