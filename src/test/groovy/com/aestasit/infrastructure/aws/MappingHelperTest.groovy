@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package com.aestasit.infrastructure.aws.util
+package com.aestasit.infrastructure.aws
 
-import com.aestasit.infrastructure.aws.model.Instance;
+import static com.aestasit.infrastructure.aws.model.MappingHelper.*
 
-public class MapHelper {
+import org.junit.Test
 
-  public static Instance map(ec2, com.amazonaws.services.ec2.model.Instance instance) {
-    def tName = instance.tags.find { it.key == "Name" }
-    new Instance(
-      ec2,
-      instance.instanceId,
-      instance.launchTime,
-      (tName!=null ? tName.value : ""),
-      instance.publicDnsName,
-      instance.state.name
-    )
+/**
+ * Data mapping test.
+ * 
+ * @author Aestas/IT
+ *
+ */
+class MappingHelperTest {
+
+  @Test 
+  void testMapping() {    
+    map(null, new com.amazonaws.services.ec2.model.Instance())
+    map(null, new com.amazonaws.services.ec2.model.KeyPair())
   }
   
 }

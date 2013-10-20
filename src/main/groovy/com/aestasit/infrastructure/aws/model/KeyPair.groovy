@@ -29,7 +29,7 @@ import groovy.transform.Canonical
 @Canonical
 class KeyPair {
   
-  protected EC2Client ec2
+  EC2Client ec2
   
   String name
   String fingerprint

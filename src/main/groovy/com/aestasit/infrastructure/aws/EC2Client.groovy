@@ -17,9 +17,9 @@
 package com.aestasit.infrastructure.aws
 
 import static org.apache.commons.lang3.RandomStringUtils.*
+import static com.aestasit.infrastructure.aws.model.MappingHelper.*
 
 import com.aestasit.infrastructure.aws.model.Instance
-import com.aestasit.infrastructure.aws.util.MapHelper
 
 import groovy.time.TimeCategory
 
@@ -64,8 +64,8 @@ class EC2Client {
    * @param ami the image id.
    * @param securityGroup the security group.
    * @param instanceType the instance type.
-   * @param waitForStart if true then method is wating for the instance to become available.
-   * @return an Instance object containing the data of the started instance.
+   * @param waitForStart if true then method is waiting for the instance to become available.
+   * @return created instance model object.
    */
   Instance startInstance(String keyName,
       String ami,
@@ -177,7 +177,8 @@ class EC2Client {
    *  }
    *}
    * </pre>
-   * @param instanceName the instance name pattern, supports wildcards
+   * 
+   * @param instanceName the instance name pattern (supports wild cards).
    * @param tagFilter the map of additional tag values.
    * @return collection of instance data.
    */
@@ -274,9 +275,9 @@ class EC2Client {
   /**
    * Create key pair with random name.
    * 
-   * @return created key pair name. 
+   * @return created key pair model object. 
    */
-  String createKeyPair() {
+  KeyPair createKeyPair() {
     def randomKey = InetAddress.localHost.hostName + '_' + randomAlphanumeric(12)
     createKeyPair(randomKey)
   }
@@ -285,12 +286,12 @@ class EC2Client {
    * Create key pair with defined name.
    * 
    * @param keyPairName name of key pair to create.
-   * @return created key pair name.
+   * @return created key pair model object.
    */
-  String createKeyPair(String keyPairName) {
+  KeyPair createKeyPair(String keyPairName) {
     def newKeyPair = new CreateKeyPairRequest(keyPairName)
     def response = ec2.createKeyPair(newKeyPair)
-    response.keyPair.keyName
+    map(ec2, response.keyPair)
   }
 
   /**
@@ -310,7 +311,7 @@ class EC2Client {
     DescribeInstancesResult result = ec2.describeInstances(req)
     def instances = []
     result.getReservations().each {
-      instances << MapHelper.map(ec2, it.getInstances()[0])
+      instances << map(ec2, it.getInstances()[0])
     }
     instances
   }

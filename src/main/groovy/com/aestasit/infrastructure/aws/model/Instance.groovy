@@ -30,7 +30,7 @@ import groovy.transform.Canonical
 @Canonical
 class Instance {
 
-  private EC2Client ec2
+  EC2Client ec2
   
   String instanceId
   Date started
