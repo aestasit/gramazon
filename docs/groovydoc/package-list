@@ -1,4 +1,4 @@
-com.aestasit.cloud.aws
-com.aestasit.cloud.aws.gradle
-com.aestasit.cloud.aws.gradle.tasks
-com.aestasit.cloud.aws.util
+com.aestasit.infrastructure.aws
+com.aestasit.infrastructure.aws.gradle
+com.aestasit.infrastructure.aws.gradle.tasks
+com.aestasit.infrastructure.aws.model
