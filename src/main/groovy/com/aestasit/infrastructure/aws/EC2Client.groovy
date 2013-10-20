@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws
+package com.aestasit.infrastructure.aws
+
+import static org.apache.commons.lang3.RandomStringUtils.*
+
+import com.aestasit.infrastructure.aws.model.Instance
+import com.aestasit.infrastructure.aws.util.MapHelper
 
 import groovy.time.TimeCategory
 
-import com.aestasit.cloud.aws.util.MapHelper
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2Client
 import com.amazonaws.services.ec2.model.*
+
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
-import groovy.time.TimeCategory
-import static org.apache.commons.lang3.RandomStringUtils.*
 
 /**
  *
@@ -36,7 +39,7 @@ import static org.apache.commons.lang3.RandomStringUtils.*
  * The class provides credentials by looking at the <code>aws.accessKeyId</code>
  * and <code>aws.secretKey</code> Java system properties.
  *
- * @author Aestas IT
+ * @author Aestas/IT
  *
  */
 class EC2Client {
@@ -197,16 +200,38 @@ class EC2Client {
    * Stop an EC2 instance.
    *
    * @param instanceId the instance id to stop.
+   * @return true if instance stopping was successfully started, false otherwise.
    */
-  void stopInstance(String instanceId) {
-    ec2.stopInstances(new StopInstancesRequest().withInstanceIds([instanceId]))
+  boolean stopInstance(String instanceId) {
+    stopInstances([instanceId]) == 1
   }
 
   /**
+   * Stop one or more EC2 instances.
+   *  
+   * @param instanceIds the list of instance id to stop.
+   * @return number of instances which stopping has successfully started.
+   */
+  int stopInstances(List<String> instanceIds) {
+    def response = ec2.stopInstances(new StopInstancesRequest().withInstanceIds(instanceIds))
+    response.stoppingInstances.size()
+  }
+  
+  /**
    * Terminate an EC2 instance.
    *
+   * @param instanceId the instance id to terminate.
+   * @return true if instance termination was successfully started, false otherwise.
+   */
+  boolean terminateInstance(String instanceId) {
+    terminateInstances([instanceId]) == 1
+  }
+
+  /**
+   * Terminate one or more EC2 instances.
+   *
    * @param instanceIds the list of instance id to terminate.
-   * @return number of terminated instances.
+   * @return number of instances which termination has successfully started.
    */
   int terminateInstances(List<String> instanceIds) {
     def response = ec2.terminateInstances(new TerminateInstancesRequest(instanceIds))
@@ -220,7 +245,7 @@ class EC2Client {
    * @param instanceId the instance id of the instance to create an image from.
    * @param name the name of the AMI.
    * @param description a description of the AMI.
-   * @param stopBeforeCreation if true, stop the instance before creating the AMI (reccomended).
+   * @param stopBeforeCreation if true, stop the instance before creating the AMI (recommended).
    * @param stopTimeout optional, set the number of seconds to wait for the instance to stop.
    *                    fails if the waiting time exceeds the timeout.
    * @return the id of the AMI that was created.
@@ -246,27 +271,36 @@ class EC2Client {
 
   }
 
+  /**
+   * Create key pair with random name.
+   * 
+   * @return created key pair name. 
+   */
   String createKeyPair() {
-    def randomKey = java.net.InetAddress.localHost.hostName + 
-                    '_' + randomAlphanumeric(12)
+    def randomKey = InetAddress.localHost.hostName + '_' + randomAlphanumeric(12)
     createKeyPair(randomKey)
-    randomKey
   }
 
-  String createKeyPair(String keypairName) {
-    def newKeyPair = new CreateKeyPairRequest(keypairName)
+  /**
+   * Create key pair with defined name.
+   * 
+   * @param keyPairName name of key pair to create.
+   * @return created key pair name.
+   */
+  String createKeyPair(String keyPairName) {
+    def newKeyPair = new CreateKeyPairRequest(keyPairName)
     def response = ec2.createKeyPair(newKeyPair)
-
     response.keyPair.keyName
-
   }
 
-  void destroyKeyPair() {
-    // TODO
-
+  /**
+   * Destroy key pair.
+   * 
+   * @param keyPairName key pair name to destroy.
+   */
+  void destroyKeyPair(String keyPairName) {
+    ec2.deleteKeyPair(new DeleteKeyPairRequest(keyPairName))
   }
-
-
 
   /*
    * PRIVATE METHODS

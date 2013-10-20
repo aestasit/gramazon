@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws
+package com.aestasit.infrastructure.aws
 
 import org.junit.BeforeClass
 

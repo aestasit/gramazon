@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws
+package com.aestasit.infrastructure.aws
 
 import static org.junit.Assert.*
 import groovy.time.TimeCategory
 
 import org.junit.*
+
+import com.aestasit.infrastructure.aws.EC2Client;
+import com.aestasit.infrastructure.aws.model.Instance;
 
 /**
  * Groovy API (EC2Client) integration test.
@@ -27,7 +30,7 @@ import org.junit.*
  * @author Aestas/IT
  *
  */
-class TestEC2Client extends GramazonTest {
+class EC2ClientTest extends GramazonTest {
 
   EC2Client ec2
 

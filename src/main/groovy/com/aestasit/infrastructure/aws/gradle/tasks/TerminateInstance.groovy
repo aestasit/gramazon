@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws.gradle.tasks
+package com.aestasit.infrastructure.aws.gradle.tasks
 
-import com.aestasit.cloud.aws.Instance
+import static com.aestasit.infrastructure.aws.gradle.InstanceStateUtils.getInstanceState
+
+import com.aestasit.infrastructure.aws.model.Instance;
+
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
-import static com.aestasit.cloud.aws.gradle.InstanceStateUtils.getInstanceState
 
 /**
  * Task that is capable of terminating Amazon EC2 instance.

@@ -14,39 +14,21 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws
+package com.aestasit.infrastructure.aws.gradle
 
-import static org.junit.Assert.*
-import groovy.time.TimeCategory
-
-import org.junit.*
+import groovy.transform.Canonical
 
 /**
- * Groovy API (EC2Client) integration test.
- *
+ * Common Gramazon/EC2 settings data object. 
+ * 
  * @author Aestas/IT
  *
  */
-class KeyPairTest extends GramazonTest {
-
-
-  EC2Client ec2
-
-  @Before
-  public void prepare() {
-    System.setProperty("aws.accessKeyId", AWS_ACCESS_KEY_ID)
-    System.setProperty("aws.secretKey", AWS_SECRET_KEY)
-    ec2 = new EC2Client(DEFAULT_REGION)
-  }
-
-  @Ignore
-  void createKeypairWithName() {
-    ec2.createKeyPair('test-groovy')
-  }
-
-  @Ignore
-  void createKeypairWithRandomName() {
-    ec2.createKeyPair()
-  }
+@Canonical
+class AwsSettings {
+  
+  String acceesKeyId
+  String secretKey
+  String region = "eu-west-1"
 
 }

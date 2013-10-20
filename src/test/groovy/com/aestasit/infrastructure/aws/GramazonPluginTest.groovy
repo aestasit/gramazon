@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws
+package com.aestasit.infrastructure.aws
 
 import groovy.time.TimeCategory
 
@@ -25,9 +25,9 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
-import com.aestasit.cloud.aws.gradle.tasks.CreateImage
-import com.aestasit.cloud.aws.gradle.tasks.StartInstance
-import com.aestasit.cloud.aws.gradle.tasks.TerminateInstance
+import com.aestasit.infrastructure.aws.gradle.tasks.CreateImage
+import com.aestasit.infrastructure.aws.gradle.tasks.StartInstance
+import com.aestasit.infrastructure.aws.gradle.tasks.TerminateInstance
 
 /**
  * Integration test for Gradle API (StartInstance, TerminateInstance, CreateImage etc.) of Gramazon.
@@ -35,7 +35,7 @@ import com.aestasit.cloud.aws.gradle.tasks.TerminateInstance
  * @author Aestas/IT
  *
  */
-class TestGramazonPlugin extends GramazonTest {
+class GramazonPluginTest extends GramazonTest {
 
   Project project
 

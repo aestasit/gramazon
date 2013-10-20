@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws
+package com.aestasit.infrastructure.aws.gradle
 
-import com.amazonaws.services.ec2.AmazonEC2
-import com.amazonaws.services.ec2.model.TerminateInstancesRequest
 import groovy.transform.Canonical
 
+/**
+ * Data object representing Amazon EC2 instance state.
+ *
+ * @author Aestas/IT
+ *
+ */
 @Canonical
-class Instance {
+class InstanceState {
 
-  AmazonEC2 ec2
-  String instanceId
-  Date started
   String name
   String host
-  String state
-  // TODO add tags
-
-  public int terminate() {
-    return ec2.terminateInstances(new TerminateInstancesRequest([this.instanceId])).terminatingInstances.size()
-  } 
+  String instanceId
 
 }

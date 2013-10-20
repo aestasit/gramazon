@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws.gradle
+package com.aestasit.infrastructure.aws.gradle
 
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
@@ -28,7 +28,7 @@ import groovy.json.JsonSlurper
 class InstanceStateUtils {
 
   /**
-   * Deserialize the InstanceState pojo from JSON.
+   * Deserialize the InstanceState POJO from JSON.
    *
    * @param f the file where the JSON file is.
    * @return a deserialized InstanceState.

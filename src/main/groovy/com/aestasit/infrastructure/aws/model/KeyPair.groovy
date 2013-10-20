@@ -14,21 +14,29 @@
  * limitations under the License.
  */
 
-package com.aestasit.cloud.aws.gradle
+package com.aestasit.infrastructure.aws.model
+
+import com.aestasit.infrastructure.aws.EC2Client;
 
 import groovy.transform.Canonical
 
 /**
- * Common Gramazon/EC2 settings data object. 
+ * Model object representing EC2 key pair.
  * 
  * @author Aestas/IT
  *
  */
 @Canonical
-class AwsSettings {
+class KeyPair {
   
-  String acceesKeyId
-  String secretKey
-  String region = "eu-west-1"
+  protected EC2Client ec2
+  
+  String name
+  String fingerprint
+  String material
 
+  void destroy() {
+    ec2.destroyKeyPair(name)
+  }
+  
 }
