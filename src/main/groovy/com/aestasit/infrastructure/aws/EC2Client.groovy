@@ -306,7 +306,7 @@ class EC2Client {
   KeyPair createKeyPair(String keyPairName) {
     def newKeyPair = new CreateKeyPairRequest(keyPairName)
     def response = ec2.createKeyPair(newKeyPair)
-    map(ec2, response.keyPair)
+    map(this, response.keyPair)
   }
 
   /**
@@ -326,7 +326,7 @@ class EC2Client {
     DescribeInstancesResult result = ec2.describeInstances(req)
     def instances = []
     result.getReservations().each {
-      instances << map(ec2, it.getInstances()[0])
+      instances << map(this, it.getInstances()[0])
     }
     instances
   }
