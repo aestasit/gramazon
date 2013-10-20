@@ -16,28 +16,43 @@
 
 package com.aestasit.infrastructure.aws
 
-import static org.apache.commons.lang3.RandomStringUtils.*
 import static com.aestasit.infrastructure.aws.model.MappingHelper.*
+import static org.apache.commons.lang3.RandomStringUtils.*
 
 import com.aestasit.infrastructure.aws.model.Instance
-
-import groovy.time.TimeCategory
+import com.aestasit.infrastructure.aws.model.KeyPair
 
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2Client
-import com.amazonaws.services.ec2.model.*
+import com.amazonaws.services.ec2.model.BlockDeviceMapping
+import com.amazonaws.services.ec2.model.CreateImageRequest
+import com.amazonaws.services.ec2.model.CreateKeyPairRequest
+import com.amazonaws.services.ec2.model.CreateTagsRequest
+import com.amazonaws.services.ec2.model.DeleteKeyPairRequest
+import com.amazonaws.services.ec2.model.DescribeInstancesRequest
+import com.amazonaws.services.ec2.model.DescribeInstancesResult
+import com.amazonaws.services.ec2.model.EbsBlockDevice
+import com.amazonaws.services.ec2.model.Filter
+import com.amazonaws.services.ec2.model.InstanceType
+import com.amazonaws.services.ec2.model.RunInstancesRequest
+import com.amazonaws.services.ec2.model.StopInstancesRequest
+import com.amazonaws.services.ec2.model.Tag
+import com.amazonaws.services.ec2.model.TerminateInstancesRequest
+import com.amazonaws.services.ec2.model.VolumeType
 
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 
+import groovy.time.TimeCategory
+
 /**
  *
- * Client class to interact with Amazon EC2 Instances.
- * The only constructor allows to set the EC2 Region (e.g. eu-west-1).
+ * Client class to interact with Amazon EC2 instances.
+ * The only constructor allows to set the EC2 region (e.g. eu-west-1).
  *
  * The class provides credentials by looking at the <code>aws.accessKeyId</code>
- * and <code>aws.secretKey</code> Java system properties.
+ * and <code>aws.secretKey</code> system properties.
  *
  * @author Aestas/IT
  *
@@ -52,7 +67,7 @@ class EC2Client {
 
   private final AmazonEC2 ec2
 
-  EC2Client(region) {
+  EC2Client(String region = 'eu-west-1') {
     ec2 = new AmazonEC2Client(new SystemPropertiesCredentialsProvider())
     ec2.endpoint = "ec2." + region + ".amazonaws.com"
   }
@@ -76,10 +91,10 @@ class EC2Client {
       String instanceName = null,
       Map<String, String> additionalTags = [:]) {
 
-    def req = new RunInstancesRequest()
+    def req = new RunInstancesRequest() 
     req.keyName = keyName
     req.imageId = ami
-    req.securityGroups = [securityGroup]
+    req.securityGroups = [ securityGroup ]
     req.instanceType = InstanceType.fromValue(instanceType)
     req.minCount = 1
     req.maxCount = 1
