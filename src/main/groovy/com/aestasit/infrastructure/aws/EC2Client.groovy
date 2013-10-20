@@ -18,10 +18,10 @@ package com.aestasit.infrastructure.aws
 
 import static com.aestasit.infrastructure.aws.model.MappingHelper.*
 import static org.apache.commons.lang3.RandomStringUtils.*
+import groovy.time.TimeCategory
 
 import com.aestasit.infrastructure.aws.model.Instance
 import com.aestasit.infrastructure.aws.model.KeyPair
-
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2Client
@@ -40,11 +40,9 @@ import com.amazonaws.services.ec2.model.StopInstancesRequest
 import com.amazonaws.services.ec2.model.Tag
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest
 import com.amazonaws.services.ec2.model.VolumeType
-
+import com.amazonaws.services.rds.model.AddTagsToResourceRequest
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
-
-import groovy.time.TimeCategory
 
 /**
  *
@@ -278,13 +276,21 @@ class EC2Client {
       withTimeout(stopTimeout, retryDelay) { getInstanceState(instanceId) == "stopped" }
     }
 
+    // Create image.
     def imageRequest = new CreateImageRequest()
         .withInstanceId(instanceId)
         .withName(name)
-        .withDescription(description)
-
-    ec2.createImage(imageRequest).imageId
-
+        .withDescription(description)            
+    def imageId = ec2.createImage(imageRequest).imageId
+    
+    // Add name tag to the image resource.
+    def tagRequest = new CreateTagsRequest()
+        .withResources(imageId)
+        .withTags(new Tag('Name', name))
+    ec2.createTags(tagRequest)    
+        
+    imageId    
+        
   }
 
   /**
