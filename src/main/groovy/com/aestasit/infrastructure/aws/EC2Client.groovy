@@ -103,14 +103,14 @@ class EC2Client {
       ])
     }
 
-    def result = ec2.runInstances(req)    
-    def instanceId = result.reservation.instances[0].instanceId
+    def result = ec2.runInstances(req)        
     
     // Sleep for a while, to give time to the instance to properly initialize.
     sleep(EC2_API_REQUEST_DELAY)
     
     // Set instance name.
-    addTagsToInstance(instanceId) {
+    def instanceId = result.reservation.instances[0].instanceId
+    addTagsToResource(instanceId) {
       instanceName ? ["Name": instanceName] : null
     }
 
@@ -282,7 +282,7 @@ class EC2Client {
     def imageId = ec2.createImage(imageRequest).imageId
     
     // Add name tag to the image resource.
-    addTagsToInstance(imageId) {
+    addTagsToResource(imageId) {
       ["Name": name]
     }
         
@@ -334,7 +334,7 @@ class EC2Client {
     instances
   }
 
-  private void addTagsToInstance(String resourceId, Closure tags) {
+  private void addTagsToResource(String resourceId, Closure tags) {
     def tagMap = tags.call()
     if (tagMap) {
       ec2.createTags(
