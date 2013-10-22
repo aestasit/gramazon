@@ -60,7 +60,7 @@ class EC2Client {
   private final static String RUNNING_STATE = "running"
 
   static final int EC2_API_REQUEST_DELAY = 5000
-  static final int SSH_CONNECTION_RETRY_DELAY = 5000
+  static final int CONNECTION_RETRY_DELAY = 5000
   static final int DEFAULT_RETRY_COUNT = 50
 
   private final AmazonEC2 ec2
@@ -80,7 +80,8 @@ class EC2Client {
    * @param waitForStart if true then method is waiting for the instance to become available.
    * @return created instance model object.
    */
-  Instance startInstance(String keyName,
+  Instance startInstance(
+      String keyName,
       String ami,
       String securityGroup,
       String instanceType,
@@ -102,25 +103,22 @@ class EC2Client {
       ])
     }
 
-    def result = ec2.runInstances(req)
+    def result = ec2.runInstances(req)    
     def instanceId = result.reservation.instances[0].instanceId
-
+    
     // Sleep for a while, to give time to the instance to properly initialize.
     sleep(EC2_API_REQUEST_DELAY)
-
+    
     // Set instance name.
-    addTagsToInstance(result.reservation.instances[0].instanceId, {
-      if (instanceName) {
-        additionalTags << ["Name": instanceName]
-      }
-      additionalTags ?: null
-    })
+    addTagsToInstance(instanceId) {
+      instanceName ? ["Name": instanceName] : null
+    }
 
     // Sleep for a while, to give time to the instance to properly initialize.
     sleep(EC2_API_REQUEST_DELAY)
 
-    // Wait for instace to have 'running' state.
-    repeat("creating instance...", EC2_API_REQUEST_DELAY, DEFAULT_RETRY_COUNT) {
+    // Wait for instance to have 'running' state.
+    repeat("> Creating instance...", EC2_API_REQUEST_DELAY, DEFAULT_RETRY_COUNT) {
       try {
         return getInstanceState(instanceId) == RUNNING_STATE
       } catch (Exception e) {
@@ -146,7 +144,7 @@ class EC2Client {
       }
 
       // Now try to connect to the instance on the specified port.
-      repeat("initiating ssh connection...", SSH_CONNECTION_RETRY_DELAY, DEFAULT_RETRY_COUNT) {
+      repeat("> Testing connection on port...", CONNECTION_RETRY_DELAY, DEFAULT_RETRY_COUNT) {
         available(instance.host, 22)
       }
       sleep(EC2_API_REQUEST_DELAY)
@@ -284,10 +282,9 @@ class EC2Client {
     def imageId = ec2.createImage(imageRequest).imageId
     
     // Add name tag to the image resource.
-    def tagRequest = new CreateTagsRequest()
-        .withResources(imageId)
-        .withTags(new Tag('Name', name))
-    ec2.createTags(tagRequest)    
+    addTagsToInstance(imageId) {
+      ["Name": name]
+    }
         
     imageId    
         
@@ -337,13 +334,14 @@ class EC2Client {
     instances
   }
 
-  private void addTagsToInstance(String instance, Closure tags) {
+  private void addTagsToInstance(String resourceId, Closure tags) {
     def tagMap = tags.call()
     if (tagMap) {
-      ec2.createTags(new CreateTagsRequest()
-          .withResources([instance])
+      ec2.createTags(
+        new CreateTagsRequest()
+          .withResources([resourceId])
           .withTags(tagMap.collect { k, v -> new Tag(k, v) })
-          )
+      )
     }
   }
 
