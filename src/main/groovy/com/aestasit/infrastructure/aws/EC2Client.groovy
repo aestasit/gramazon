@@ -28,6 +28,7 @@ import com.amazonaws.services.ec2.AmazonEC2Client
 import com.amazonaws.services.ec2.model.BlockDeviceMapping
 import com.amazonaws.services.ec2.model.CreateImageRequest
 import com.amazonaws.services.ec2.model.CreateKeyPairRequest
+import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
 import com.amazonaws.services.ec2.model.CreateTagsRequest
 import com.amazonaws.services.ec2.model.DeleteKeyPairRequest
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest
@@ -40,7 +41,6 @@ import com.amazonaws.services.ec2.model.StopInstancesRequest
 import com.amazonaws.services.ec2.model.Tag
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest
 import com.amazonaws.services.ec2.model.VolumeType
-import com.amazonaws.services.rds.model.AddTagsToResourceRequest
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
 
@@ -321,6 +321,18 @@ class EC2Client {
     ec2.deleteKeyPair(new DeleteKeyPairRequest(keyPairName))
   }
 
+  /**
+   * Add security group.
+   * 
+   * @param groupName security group name.
+   * @param description group description.
+   */
+  void createSecurityGroup(String groupName, String description) {
+    ec2.createSecurityGroup(new CreateSecurityGroupRequest().withGroupName(groupName).withDescription(description))
+    // TODO: Add tags
+    // TODO: Add rules 
+  }
+      
   /*
    * PRIVATE METHODS
    */
