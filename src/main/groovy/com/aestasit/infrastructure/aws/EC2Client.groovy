@@ -25,6 +25,7 @@ import com.aestasit.infrastructure.aws.model.KeyPair
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2Client
+import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest
 import com.amazonaws.services.ec2.model.BlockDeviceMapping
 import com.amazonaws.services.ec2.model.CreateImageRequest
 import com.amazonaws.services.ec2.model.CreateKeyPairRequest
@@ -36,6 +37,7 @@ import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.amazonaws.services.ec2.model.EbsBlockDevice
 import com.amazonaws.services.ec2.model.Filter
 import com.amazonaws.services.ec2.model.InstanceType
+import com.amazonaws.services.ec2.model.IpPermission
 import com.amazonaws.services.ec2.model.RunInstancesRequest
 import com.amazonaws.services.ec2.model.StopInstancesRequest
 import com.amazonaws.services.ec2.model.Tag
@@ -328,9 +330,21 @@ class EC2Client {
    * @param description group description.
    */
   void createSecurityGroup(String groupName, String description) {
-    ec2.createSecurityGroup(new CreateSecurityGroupRequest().withGroupName(groupName).withDescription(description))
-    // TODO: Add tags
-    // TODO: Add rules 
+    def result = ec2.createSecurityGroup(
+      new CreateSecurityGroupRequest()
+        .withGroupName(groupName)
+        .withDescription(description)
+      )    
+    def permissions = [
+      new IpPermission()
+        .withFromPort(22)
+        .withIpProtocol('tcp')
+    ]    
+    ec2.authorizeSecurityGroupIngress(
+      new AuthorizeSecurityGroupIngressRequest()
+        .withGroupId(result.groupId)
+        .withIpPermissions(permissions)
+      )
   }
       
   /*
