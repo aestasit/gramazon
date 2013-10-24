@@ -88,6 +88,7 @@ class EC2Client {
       String securityGroup,
       String instanceType,
       boolean waitForStart,
+      int portToProbe = 22,
       int esbVolumeSize = -1,
       String instanceName = null,
       Map<String, String> additionalTags = [:]) {
@@ -146,8 +147,8 @@ class EC2Client {
       }
 
       // Now try to connect to the instance on the specified port.
-      repeat("> Testing connection on port...", CONNECTION_RETRY_DELAY, DEFAULT_RETRY_COUNT) {
-        available(instance.host, 22)
+      repeat("> Testing connection on port ${portToProbe}...", CONNECTION_RETRY_DELAY, DEFAULT_RETRY_COUNT) {
+        available(instance.host, portToProbe)
       }
       sleep(EC2_API_REQUEST_DELAY)
 
@@ -434,30 +435,13 @@ class EC2Client {
     }
   }
 
-  private boolean available(String host, int port, String keyFilePath = null) {
-    JSch jsch = new JSch()
-    Properties config = new Properties()
-    config.put("StrictHostKeyChecking", "no")
-    config.put("HashKnownHosts",  "yes")
-    jsch.config = config
-    Session session = jsch.getSession("root", host, port)
-    if (keyFilePath != null) {
-      jsch.addIdentity(keyFilePath)
-    }
-    // TODO: We should provide key file for proper connection checking.
+  private boolean available(String host, int port) {
     try {
-      session.connect()
-      session.disconnect()
+      new Socket(host, port).close()
       return true
-    } catch (com.jcraft.jsch.JSchException e) {
-      // TODO: This code should not be here when key file is added to the list of parameters.
-      if (e.message.contains("Auth fail")) {
-        return true
-      }
-    } catch (Exception e1) {
-      e1.printStackTrace()
+    } catch (IOException ex) {
+      return false
     }
-    false
   }
 
 }
