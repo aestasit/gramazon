@@ -32,6 +32,7 @@ import com.amazonaws.services.ec2.model.CreateKeyPairRequest
 import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
 import com.amazonaws.services.ec2.model.CreateTagsRequest
 import com.amazonaws.services.ec2.model.DeleteKeyPairRequest
+import com.amazonaws.services.ec2.model.DeleteSecurityGroupRequest
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest
 import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.amazonaws.services.ec2.model.EbsBlockDevice
@@ -43,8 +44,6 @@ import com.amazonaws.services.ec2.model.StopInstancesRequest
 import com.amazonaws.services.ec2.model.Tag
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest
 import com.amazonaws.services.ec2.model.VolumeType
-import com.jcraft.jsch.JSch
-import com.jcraft.jsch.Session
 
 /**
  *
@@ -346,6 +345,15 @@ class EC2Client {
         .withGroupId(result.groupId)
         .withIpPermissions(permissions)
       )
+  }
+  
+  /**
+   * Delete security group.
+   * 
+   * @param groupName security group name.
+   */
+  void destroySecurityGroup(String groupName) {
+    ec2.deleteSecurityGroup(new DeleteSecurityGroupRequest().withGroupName(groupName))
   }
       
   /*

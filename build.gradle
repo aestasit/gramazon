@@ -29,9 +29,6 @@ dependencies {
   compile "org.slf4j:slf4j-api:${slf4jVersion}"
   compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
   compile "com.amazonaws:aws-java-sdk:${awsSdkVersion}"
-  compile('com.jcraft:jsch:0.1.44-1') {
-    exclude module: 'slf4j-simple'
-  }
   compile 'org.apache.commons:commons-lang3:3.1'
 }  
 
