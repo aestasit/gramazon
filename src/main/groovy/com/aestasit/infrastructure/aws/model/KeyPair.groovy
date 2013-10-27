@@ -16,7 +16,7 @@
 
 package com.aestasit.infrastructure.aws.model
 
-import com.aestasit.infrastructure.aws.EC2Client;
+import com.aestasit.infrastructure.aws.EC2Client
 
 import groovy.transform.Canonical
 
