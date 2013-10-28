@@ -37,7 +37,10 @@ class Instance {
   String name
   String host
   String state
+  
   // TODO add tags
+  // TODO add security group
+  // TODO add caching
 
   public boolean stop() {
     ec2.stopInstance(instanceId)
