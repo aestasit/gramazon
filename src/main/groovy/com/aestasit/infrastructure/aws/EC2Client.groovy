@@ -20,6 +20,7 @@ import static com.aestasit.infrastructure.aws.model.MappingHelper.*
 import static org.apache.commons.lang3.RandomStringUtils.*
 import groovy.time.TimeCategory
 
+import com.aestasit.infrastructure.aws.model.Image
 import com.aestasit.infrastructure.aws.model.Instance
 import com.aestasit.infrastructure.aws.model.KeyPair
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
@@ -33,6 +34,7 @@ import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
 import com.amazonaws.services.ec2.model.CreateTagsRequest
 import com.amazonaws.services.ec2.model.DeleteKeyPairRequest
 import com.amazonaws.services.ec2.model.DeleteSecurityGroupRequest
+import com.amazonaws.services.ec2.model.DescribeImagesRequest
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest
 import com.amazonaws.services.ec2.model.DescribeInstancesResult
 import com.amazonaws.services.ec2.model.EbsBlockDevice
@@ -196,9 +198,10 @@ class EC2Client {
    * @return collection of instance data.
    */
   List<Instance> listInstances(String instanceName, Map<String, String> tagFilter = [:]) {
-    listInstancesWithRequest(new DescribeInstancesRequest()
+    listInstancesWithRequest(
+      new DescribeInstancesRequest()
         .withFilters(tagFilter.collect { k, v -> new Filter("tag:" + k, [v]) } << new Filter("tag:Name", [instanceName]))
-        )
+    )
   }
 
   /**
@@ -208,8 +211,8 @@ class EC2Client {
    */
   List<Instance> listAllInstances() {
     listInstancesWithRequest(new DescribeInstancesRequest())
-  }
-
+  }  
+  
   /**
    * Stop an EC2 instance.
    *
@@ -314,6 +317,10 @@ class EC2Client {
     map(this, response.keyPair)
   }
 
+  List<Image> listAllImages() {
+    ec2.describeImages(new DescribeImagesRequest())
+  }
+  
   /**
    * Destroy key pair.
    * 
