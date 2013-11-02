@@ -318,7 +318,8 @@ class EC2Client {
   }
 
   List<Image> listAllImages() {
-    ec2.describeImages(new DescribeImagesRequest())
+    def response = ec2.describeImages(new DescribeImagesRequest())
+    response.images.collect { map(ec2, it) }
   }
   
   /**

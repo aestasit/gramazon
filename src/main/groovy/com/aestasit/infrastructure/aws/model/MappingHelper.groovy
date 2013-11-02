@@ -45,5 +45,16 @@ public class MappingHelper {
     }
     mapped
   }
+  
+  static Image map(EC2Client ec2client, com.amazonaws.services.ec2.model.Image image) {
+    Image mapped = new Image()
+    mapped.with {
+      ec2 = ec2client
+      name = image.name
+      id = image.imageId
+    }
+    mapped
+  }
+
 
 }
