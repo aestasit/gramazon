@@ -256,6 +256,16 @@ class EC2Client {
   }
 
   /**
+   * Lists all available images.
+   * 
+   * @return list of all images.
+   */
+  List<Image> listAllImages() {
+    def response = ec2.describeImages(new DescribeImagesRequest())
+    response.images.collect { map(ec2, it) }
+  }
+  
+  /**
    *
    * Create an AMI (image) out of an existing instance.
    *
@@ -316,12 +326,7 @@ class EC2Client {
     def response = ec2.createKeyPair(newKeyPair)
     map(this, response.keyPair)
   }
-
-  List<Image> listAllImages() {
-    def response = ec2.describeImages(new DescribeImagesRequest())
-    response.images.collect { map(ec2, it) }
-  }
-  
+    
   /**
    * Destroy key pair.
    * 
