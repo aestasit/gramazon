@@ -258,13 +258,23 @@ class EC2Client {
   /**
    * Lists all available images.
    * 
-   * @return list of all images.
+   * @return list of image data.
    */
   List<Image> listAllImages() {
     def response = ec2.describeImages(new DescribeImagesRequest())
     response.images.collect { map(ec2, it) }
   }
-  
+
+  /**
+   * Lists all images owned by current user.
+   *
+   * @return list of image data.
+   */
+  List<Image> listSelfImages() {
+    def response = ec2.describeImages(new DescribeImagesRequest().withOwners('self'))
+    response.images.collect { map(ec2, it) }
+  }
+
   /**
    *
    * Create an AMI (image) out of an existing instance.
