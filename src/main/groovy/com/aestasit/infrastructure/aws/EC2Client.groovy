@@ -276,12 +276,22 @@ class EC2Client {
   }
 
   /**
-   * Lists all images owned by amazon.
+   * Lists all images owned by Amazon.
    *
    * @return list of image data.
    */
   List<Image> listAmazonImages() {
     def response = ec2.describeImages(new DescribeImagesRequest().withOwners('amazon'))
+    response.images.collect { map(ec2, it) }
+  }
+
+  /**
+   * Lists all images available on marketplace.
+   *
+   * @return list of image data.
+   */
+  List<Image> listMarketplaceImages() {
+    def response = ec2.describeImages(new DescribeImagesRequest().withOwners('aws-marketplace'))
     response.images.collect { map(ec2, it) }
   }
 
