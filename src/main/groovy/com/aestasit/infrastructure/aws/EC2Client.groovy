@@ -296,6 +296,21 @@ class EC2Client {
   }
 
   /**
+   * Lists images available using provided tag filter.
+   *
+   * @return list of image data.
+   */
+  List<Image> listImages(Map<String, String> tagFilter = [:]) {
+    def response = ec2.describeImages(
+      new DescribeImagesRequest().
+        withFilters(
+          tagFilter.collect { tag, value -> new Filter("tag:" + tag, [ value ]) }
+        )
+    )
+    response.images.collect { map(ec2, it) }
+  }
+
+  /**
    *
    * Create an AMI (image) out of an existing instance.
    *
