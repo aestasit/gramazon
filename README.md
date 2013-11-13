@@ -6,7 +6,7 @@
 
 ## About Gramazon ##
 
-Amazon Web Services offers a compute power on demand capability known as the Elastic Compute Cloud (EC2). The server resources in the cloud can be provisioned on demand by making HTTP Query API calls to EC2.
+Amazon Web Services offers a compute power on demand capability known as the Elastic Compute Cloud (EC2). The server resources in the cloud can be provisioned on demand by making **HTTP Query API** calls to EC2.
 
 **Gramazon** is an interface library that can be used to interact with the Amazon EC2 system and control server resources on demand from your **Groovy** scripts or from **Gradle**, using a plug-in.
 
