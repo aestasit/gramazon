@@ -58,6 +58,10 @@ class StartInstance extends AbstractEc2Task {
 
   @Input
   @Optional
+  int portToProbe = 22
+
+  @Input
+  @Optional
   String statePath = project.buildDir.path
 
   @Input
@@ -85,11 +89,13 @@ class StartInstance extends AbstractEc2Task {
     if (doStart) {
       
       // Start instance.
-      ec2Instance = client.startInstance(keyName,
+      ec2Instance = client.startInstance(
+          keyName,
           ami,
           securityGroup,
           instanceType,
           waitForStart,
+          portToProbe,
           ebsSize,
           instanceName)
 
