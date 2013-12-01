@@ -93,3 +93,7 @@ Please follow these steps if you want to send a patch or a GitHub pull request:
 Enjoy!
 
 The Aestas Team
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/aestasit/gramazon/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
