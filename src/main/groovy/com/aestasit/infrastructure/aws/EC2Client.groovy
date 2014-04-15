@@ -115,7 +115,7 @@ class EC2Client {
     // Set instance name.
     def instanceId = result.reservation.instances[0].instanceId
     addTagsToResource(instanceId) {
-      instanceName ? ["Name": instanceName] : null
+      instanceName ? additionalTags << ["Name": instanceName] : additionalTags
     }
 
     // Sleep for a while, to give time to the instance to properly initialize.

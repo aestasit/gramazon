@@ -30,7 +30,8 @@ public class MappingHelper {
       instanceId = instance.instanceId ?: ""
       name = tName?.value ?: ""
       host = instance.publicDnsName ?: ""
-      state = instance.state?.name ?: "UNKNOWN"    
+      state = instance.state?.name ?: "UNKNOWN"
+      tags = instance.tags ?: [:]  
     }
     mapped
   }
