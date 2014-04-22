@@ -16,6 +16,7 @@
 
 package com.aestasit.infrastructure.aws.model
 
+import com.amazonaws.internal.ListWithAutoConstructFlag
 import com.aestasit.infrastructure.aws.EC2Client;
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest
@@ -37,6 +38,7 @@ class Instance {
   String name
   String host
   String state
+  ListWithAutoConstructFlag tags
   
   // TODO add tags
   // TODO add security group

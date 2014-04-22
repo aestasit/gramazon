@@ -23,6 +23,9 @@ import org.junit.*
 
 import com.aestasit.infrastructure.aws.EC2Client;
 import com.aestasit.infrastructure.aws.model.Instance;
+import com.amazonaws.internal.ListWithAutoConstructFlag;
+import com.amazonaws.services.ec2.model.Tag;
+import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 
 /**
  * Groovy API (EC2Client) integration test.
@@ -63,6 +66,7 @@ class EC2ClientTest extends GramazonTest {
           DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
           true,
+          22,
           DEFAULT_EBSSIZE,
           "gramazon/integration/test")
       assertEquals("running", ec2.getInstanceState(instance.instanceId))
@@ -88,9 +92,7 @@ class EC2ClientTest extends GramazonTest {
   }
 
   @Test
-  @Ignore
   public void startInstanceWithNameAndTags() throws Exception {
-    // TODO: No way to test if an instance has tags (yet)
     terminateAfterTest { instance ->
       instance = ec2.startInstance(
           DEFAULT_KEY_NAME,
@@ -98,11 +100,16 @@ class EC2ClientTest extends GramazonTest {
           DEFAULT_SECURITY_GROUP,
           DEFAULT_INSTANCETYPE,
           true,
+          22,
           DEFAULT_EBSSIZE,
           "gramazon/integration/test",
           ["type": "groovy", "env": "prod"])
       assertEquals("running", ec2.getInstanceState(instance.instanceId))
-      assertEquals("gramazon/integration/test", ec2.getInstance(instance.instanceId).name)
+      def taggedInstance = ec2.getInstance(instance.instanceId)
+      assertEquals("gramazon/integration/test", taggedInstance.name)
+      assertTrue(taggedInstance.tags.contains(new Tag('type','groovy')));
+      assertTrue(taggedInstance.tags.contains(new Tag('env','prod')));
+      assertTrue(taggedInstance.tags.contains(new Tag('Name','gramazon/integration/test')));
     }
   }
 
