@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.aestasit.infrastructure.aws
+package com.aestasit.infrastructure.aws.model
 
 import static com.aestasit.infrastructure.aws.model.MappingHelper.*
 
