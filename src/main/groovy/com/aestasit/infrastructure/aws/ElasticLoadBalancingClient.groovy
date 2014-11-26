@@ -21,7 +21,7 @@ class ElasticLoadBalancingClient {
 		this.loadBalancingClient = amazonLoadBalancingClient
 		this.loadBalancerName = loadBalancerName
 		
-		Region loadBalancerRegion = new Region(region)
+		Region loadBalancerRegion = new Region(region, null)
 		loadBalancerRegion.serviceEndpoints.put('elasticloadbalancing', "elasticloadbalancing."+region+".amazonaws.com")
 		this.loadBalancingClient.setRegion(loadBalancerRegion)
 	}
