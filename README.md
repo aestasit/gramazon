@@ -39,8 +39,7 @@ Please note that the build also executes some tests against Amazon EC2. In order
 
 The easiest way to use **Gramazon** in a **Groovy** script is by importing the dependency using [Grape](http://groovy.codehaus.org/Grape).
 
-	@GrabResolver(name='oss', root='https://oss.sonatype.org/content/repositories/snapshots/')
-	@Grab('com.aestasit.infrastructure.aws:gramazon:0.1-SNAPSHOT')
+	@Grab('com.aestasit.infrastructure.aws:gramazon:0.3.7')
 	import com.aestasit.infrastructure.aws.*
 
 Alternatively, the library can be imported using your favourite build tool.
@@ -57,11 +56,6 @@ In order for the class to connect to the Amazon EC2 cloud infrastructure, the _A
 	System.setProperty("aws.secretKey", '####################################')
 
 For a list of available methods, please refer to the **Groovydoc** documentation available in the **Groovydoc** [pages](http://aestasit.github.io/gramazon/groovydoc/index.html) . 
-
-
-### Gradle Plugin ###
-
-TODO
 
 ## Credits ##
 
