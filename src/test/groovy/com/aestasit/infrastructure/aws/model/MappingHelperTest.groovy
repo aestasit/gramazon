@@ -16,9 +16,9 @@
 
 package com.aestasit.infrastructure.aws.model
 
-import static com.aestasit.infrastructure.aws.model.MappingHelper.*
-
 import org.junit.Test
+
+import static com.aestasit.infrastructure.aws.model.MappingHelper.map
 
 /**
  * Data mapping test.

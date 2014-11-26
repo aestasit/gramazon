@@ -16,16 +16,15 @@
 
 package com.aestasit.infrastructure.aws
 
-import static org.junit.Assert.*
+import com.aestasit.infrastructure.aws.model.Instance
+import com.amazonaws.services.ec2.model.Tag
 import groovy.time.TimeCategory
+import org.junit.Before
+import org.junit.Ignore
+import org.junit.Test
 
-import org.junit.*
-
-import com.aestasit.infrastructure.aws.EC2Client;
-import com.aestasit.infrastructure.aws.model.Instance;
-import com.amazonaws.internal.ListWithAutoConstructFlag;
-import com.amazonaws.services.ec2.model.Tag;
-import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
+import static org.junit.Assert.assertEquals
+import static org.junit.Assert.assertTrue;
 
 /**
  * Groovy API (EC2Client) integration test.

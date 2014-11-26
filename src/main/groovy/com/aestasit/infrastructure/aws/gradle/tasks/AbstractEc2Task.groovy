@@ -17,7 +17,6 @@
 package com.aestasit.infrastructure.aws.gradle.tasks
 
 import com.aestasit.infrastructure.aws.EC2Client
-
 import org.gradle.api.GradleException
 import org.gradle.api.internal.ConventionTask
 

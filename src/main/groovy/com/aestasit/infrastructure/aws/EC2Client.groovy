@@ -16,36 +16,17 @@
 
 package com.aestasit.infrastructure.aws
 
-import static com.aestasit.infrastructure.aws.model.MappingHelper.*
-import static org.apache.commons.lang3.RandomStringUtils.*
-import groovy.time.TimeCategory
-
 import com.aestasit.infrastructure.aws.model.Image
 import com.aestasit.infrastructure.aws.model.Instance
 import com.aestasit.infrastructure.aws.model.KeyPair
 import com.amazonaws.auth.SystemPropertiesCredentialsProvider
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2Client
-import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest
-import com.amazonaws.services.ec2.model.BlockDeviceMapping
-import com.amazonaws.services.ec2.model.CreateImageRequest
-import com.amazonaws.services.ec2.model.CreateKeyPairRequest
-import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
-import com.amazonaws.services.ec2.model.CreateTagsRequest
-import com.amazonaws.services.ec2.model.DeleteKeyPairRequest
-import com.amazonaws.services.ec2.model.DeleteSecurityGroupRequest
-import com.amazonaws.services.ec2.model.DescribeImagesRequest
-import com.amazonaws.services.ec2.model.DescribeInstancesRequest
-import com.amazonaws.services.ec2.model.DescribeInstancesResult
-import com.amazonaws.services.ec2.model.EbsBlockDevice
-import com.amazonaws.services.ec2.model.Filter
-import com.amazonaws.services.ec2.model.InstanceType
-import com.amazonaws.services.ec2.model.IpPermission
-import com.amazonaws.services.ec2.model.RunInstancesRequest
-import com.amazonaws.services.ec2.model.StopInstancesRequest
-import com.amazonaws.services.ec2.model.Tag
-import com.amazonaws.services.ec2.model.TerminateInstancesRequest
-import com.amazonaws.services.ec2.model.VolumeType
+import com.amazonaws.services.ec2.model.*
+import groovy.time.TimeCategory
+
+import static com.aestasit.infrastructure.aws.model.MappingHelper.map
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
 /**
  *

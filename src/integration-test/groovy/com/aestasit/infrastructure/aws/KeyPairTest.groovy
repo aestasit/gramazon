@@ -16,12 +16,8 @@
 
 package com.aestasit.infrastructure.aws
 
-import static org.junit.Assert.*
-import groovy.time.TimeCategory
-
-import org.junit.*
-
-import com.aestasit.infrastructure.aws.EC2Client;
+import org.junit.Before
+import org.junit.Ignore
 
 /**
  * Groovy API (EC2Client) integration test.

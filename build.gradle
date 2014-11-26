@@ -44,3 +44,7 @@ task wrapper(type: Wrapper) {
   gradleVersion = '2.1'
 }
 
+license {
+  header rootProject.file('HEADER')
+}
+

@@ -16,18 +16,16 @@
 
 package com.aestasit.infrastructure.aws
 
+import com.aestasit.infrastructure.aws.gradle.tasks.CreateImage
+import com.aestasit.infrastructure.aws.gradle.tasks.StartInstance
+import com.aestasit.infrastructure.aws.gradle.tasks.TerminateInstance
 import groovy.time.TimeCategory
-
 import org.gradle.api.Project
 import org.gradle.api.logging.LogLevel
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-
-import com.aestasit.infrastructure.aws.gradle.tasks.CreateImage
-import com.aestasit.infrastructure.aws.gradle.tasks.StartInstance
-import com.aestasit.infrastructure.aws.gradle.tasks.TerminateInstance
 
 /**
  * Integration test for Gradle API (StartInstance, TerminateInstance, CreateImage etc.) of Gramazon.

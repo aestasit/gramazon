@@ -16,15 +16,13 @@
 
 package com.aestasit.infrastructure.aws.gradle.tasks
 
-import static com.aestasit.infrastructure.aws.gradle.InstanceStateUtils.setInstanceState
-
 import com.aestasit.infrastructure.aws.gradle.InstanceState
-import com.aestasit.infrastructure.aws.model.Instance;
-
+import com.aestasit.infrastructure.aws.model.Instance
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 
+import static com.aestasit.infrastructure.aws.gradle.InstanceStateUtils.setInstanceState
 
 /**
  * Task that is capable of starting Amazon EC2 instance. 
