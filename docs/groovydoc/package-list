@@ -1,0 +1,5 @@
+com.aestasit.infrastructure.aws
+com.aestasit.infrastructure.aws.gradle
+com.aestasit.infrastructure.aws.gradle.tasks
+com.aestasit.infrastructure.aws.model
+com.aestasit.infrastructure.aws.request
